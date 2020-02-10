@@ -7,70 +7,72 @@ public class Principal
 	
 	
 	
-	public static void main(String[] args) 
-	
-	{
-		//Solicita ruta a trabajar
-		System.out.println("*********************************************");
-		System.out.println("* Ingrese la ruta con la que desea trabajar *");
-		System.out.println("*********************************************");
-		
-		
-		Scanner directorio = new Scanner(System.in);
-		String ruta = directorio.nextLine();
-		File file = new File(ruta);
-		File[] lista = file.listFiles();
-				
-		int cuenta=0;	
-		int cuenta2=0;	
-		
-		for (int i = 0; i < lista.length; i++) 
-		      if (lista[i].isFile())
-		           cuenta++;
-		
-		System.out.println("======================================");
-		System.out.println("=            Hay " +  cuenta + " archivos          =");
-		System.out.println("======================================");
-		System.out.println("  ");	
-		
-		for (int i = 1; i < lista.length; i++) 
-		      if (lista[i].isDirectory())
-		           cuenta++;
-		
-		System.out.println("======================================");
-		System.out.println("=            Hay " +  cuenta + " carpetas          =");
-		System.out.println("======================================");
-		System.out.println("  ");
-		
-		
-	    //Solicita la extension a validar		
-		System.out.println("**************************************************");
-		System.out.println("* Ingrese la extension de los archivos a buscar  *");
-		System.out.println("**************************************************");
-		Scanner extension = new Scanner(System.in);
-		String ext = extension.nextLine();
-	    
-				File carpeta = new File(ruta);
-			    File[] archivos;
-			    if(carpeta.exists()) 
-			    {
-			        if(carpeta.isDirectory()) 
-			        {
-			            archivos = carpeta.listFiles();
-			            
-			            System.out.println("==================================================");
-	        			System.out.println("=   Se encontraron los siguientes archivos "+ ext +"  =");
-	        			System.out.println("==================================================");
-			            
-			            for(int i=0; i<archivos.length; i++) 
-			            {
-			                if(archivos[i].getName().endsWith(ext)) 
-			                	
-			                    System.out.println(archivos[i].getName());
-			            }
-			        }
-	
-			    }
+	   static void muestramatriz(float matriz[][], int var) {
+	        for (int x = 0; x < var; x++) {
+	            for (int y = 0; y < (var + 1); y++) {
+	                System.out.print(" " + matriz[x][y] + " |");
+	            }
+	            System.out.println("");
+	        }
+
+	    }
+
+	    static void pivote(float matriz[][], int piv, int var) {
+	        float temp = 0;
+	        temp = matriz[piv][piv];
+	        for (int y = 0; y < (var + 1); y++) {
+
+	            matriz[piv][y] = matriz[piv][y] / temp;
+	        }
+	    }
+
+	    static void hacerceros(float matriz[][], int piv, int var) {
+	        for (int x = 0; x < var; x++) {
+	            if (x != piv) {
+	                float c = matriz[x][piv];
+	                for (int z = 0; z < (var + 1); z++) {
+	                    matriz[x][z] = ((-1 * c) * matriz[piv][z]) + matriz[x][z];
+	                }
+	            }
+	        }
+	    }
+
+	    public static void main(String args[]) {
+	        Scanner leer = new Scanner(System.in);
+	        int var = 0, piv = 0;
+	        float matriz[][];
+	        System.out.println("\t ** Este programa nos muestra la solución de un sistema de ecuaciones \n\t\tlineales a través del método Gauss_Jordan **");
+	        System.out.println("\n¿Cuantas variables tiene tu sistema?");
+	        var = leer.nextInt();
+	        matriz = new float[var][var + 1];
+	        for (int x = 0; x < var; x++) {
+	            for (int y = 0; y < (var + 1); y++) {
+	                System.out.println("Ingresa la constante de la posicion: A[" + (x + 1) + "][" + (y + 1) + "]");
+	                matriz[x][y] = leer.nextFloat();
+	            }
+
+	        }
+
+	        for (int a = 0; a < var; a++) {
+	            pivote(matriz, piv, var);
+
+	            System.out.println("\tRenglon " + (a + 1) + " entre el pivote");
+	            muestramatriz(matriz, var);
+
+	            System.out.println("");
+
+	            System.out.println("\tHaciendo ceros");
+	            hacerceros(matriz, piv, var);
+
+	            muestramatriz(matriz, var);
+	            System.out.println("");
+	            piv++;
+	        }
+	        for (int x = 0; x < var; x++) {
+	            System.out.println("La variable X" + (x + 1) + " es: " + matriz[x][var]);
+	        }
+
+	    }
 	}
 }
 
